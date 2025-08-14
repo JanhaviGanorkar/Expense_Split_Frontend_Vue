@@ -141,6 +141,67 @@ export const createNewGroup = async (formData: FormData) => {
   return await response.json();
 };
 
+// api/users/
+
+export const getUsers = async (search:string) => {
+    const response =await fetch(`http://localhost:8000/api/users/?search=${search}`, {
+        method : "GET",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        credentials: 'include'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        const details = data.users || data || [];
+        return details
+    }
+     return [];
+}
+
+
+export const addMemberToGroup = async (groupId: string, userId: string) => {
+  const response = await fetch(`http://localhost:8000/api/groups/${groupId}/members/`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user_id: userId }),
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Failed to add member: ${JSON.stringify(errorData)}`);
+  }
+
+  return await response.json();
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Failed to create group: ${JSON.stringify(errorData)}`);
+  }
+
+  return await response.json();
+};
+
+
+// export const createExpense = async (formData: FormData) => {
+//   const response = await fetch("http://localhost:8000/api/expenses/", {
+//     method: "POST",
+//     body: formData,
+//      // Multipart data send
+//      credentials: 'include'
+//   });
+
+//   if (!response.ok) {
+//     const errorData = await response.json();
+//     throw new Error(`Failed to create group: ${JSON.stringify(errorData)}`);
+//   }
+
+//   return await response.json();
+// };
+
 
 // getAllGroups()
 // api/groups/
