@@ -16,10 +16,8 @@ export const loginUser = async (email: string, password: string) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                email,
-                password
-            })
+            body: JSON.stringify({ email, password }),
+            credentials: 'include'  // <<--- ye add karo
         })
 
         if (!response.ok) {
@@ -67,7 +65,8 @@ export const register = async (email: string, password: string, display_name: st
                 email,
                 password,
                 display_name
-            })
+            }),
+             credentials: 'include'
         })
 
         if (!response.ok) {
@@ -110,7 +109,8 @@ export const getGroupDetails = async (id:string) => {
         method : "GET",
         headers: {
             "Content-Type" : "application/json"
-        }
+        },
+        credentials: 'include'
     })
     if (response.ok) {
         const data = await response.json();
@@ -128,7 +128,9 @@ export const getGroupDetails = async (id:string) => {
 export const createNewGroup = async (formData: FormData) => {
   const response = await fetch("http://localhost:8000/api/groups/", {
     method: "POST",
-    body: formData, // Multipart data send
+    body: formData,
+     // Multipart data send
+     credentials: 'include'
   });
 
   if (!response.ok) {
